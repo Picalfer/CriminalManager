@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CriminalManager</string>
+    <string name="crime_title_hint">Title</string>
+</resources>
