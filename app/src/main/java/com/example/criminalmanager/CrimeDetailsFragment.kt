@@ -22,7 +22,7 @@ class CrimeDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val crimeId = requireActivity().intent?.getStringExtra(Constants.CRIMINAL_KEY)
+        val crimeId = arguments?.getString(Constants.CRIMINAL_KEY)
         Log.d("TEST", crimeId.toString())
         crime = CrimeLab.getInstance(requireActivity()).getCrime(UUID.fromString(crimeId)) ?: Crime()
         Log.d("TEST", crime.getTitle())
@@ -56,8 +56,13 @@ class CrimeDetailsFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() =
-            CrimeDetailsFragment()
+        fun newInstance(crimeId: String): CrimeDetailsFragment {
+            val args = Bundle().apply {
+                putString(Constants.CRIMINAL_KEY, crimeId)
+            }
+            val fragment = CrimeDetailsFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
