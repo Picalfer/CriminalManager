@@ -1,14 +1,15 @@
 package com.example.criminalmanager
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.criminalmanager.databinding.FragmentCrimesListBinding
 
 class CrimesListFragment : Fragment() {
     private var crimes: MutableList<Crime> = mutableListOf()
+    private lateinit var adapter: CrimeListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +22,15 @@ class CrimesListFragment : Fragment() {
     ): View {
         val binding = FragmentCrimesListBinding.inflate(inflater)
 
-        val adapter = CrimeListAdapter(crimes)
+        adapter = CrimeListAdapter(crimes)
         binding.rv.adapter = adapter
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
     }
 
     companion object {
