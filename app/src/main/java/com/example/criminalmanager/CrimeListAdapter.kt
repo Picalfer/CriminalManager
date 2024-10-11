@@ -25,10 +25,14 @@ class CrimeListAdapter(private val items: MutableList<Crime>) :
         val item = items[position]
 
         with(holder.binding) {
-            tv.text = item.getTitle()
+            title.text = item.getTitle()
+            solved.isChecked = item.isSolved()
+            date.setText(item.getDate().toString())
 
             root.setOnClickListener {
-                Log.d("TEST", item.getTitle() + " was clicked");
+                val intent = Intent(root.context, CrimeDetailsActivity::class.java)
+                intent.putExtra(Constants.CRIMINAL_KEY, item.getId().toString())
+                root.context.startActivity(intent)
             }
         }
     }

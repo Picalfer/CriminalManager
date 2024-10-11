@@ -3,6 +3,7 @@ package com.example.criminalmanager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +15,17 @@ import com.example.criminalmanager.databinding.FragmentCrimeDetailsBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButton.OnCheckedChangeListener
 import com.google.android.material.internal.MaterialCheckable
+import java.util.UUID
 
 class CrimeDetailsFragment : Fragment() {
     private var crime: Crime = Crime()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val crimeId = requireActivity().intent?.getStringExtra(Constants.CRIMINAL_KEY)
+        Log.d("TEST", crimeId.toString())
+        crime = CrimeLab.getInstance(requireActivity()).getCrime(UUID.fromString(crimeId)) ?: Crime()
+        Log.d("TEST", crime.getTitle())
     }
 
     override fun onCreateView(
@@ -28,6 +34,7 @@ class CrimeDetailsFragment : Fragment() {
     ): View {
         val binding = FragmentCrimeDetailsBinding.inflate(inflater)
 
+        binding.crimeTitle.setText(crime.getTitle())
         binding.crimeDate.text = crime.getDate().toString()
         binding.crimeSolved.isChecked = crime.isSolved()
 

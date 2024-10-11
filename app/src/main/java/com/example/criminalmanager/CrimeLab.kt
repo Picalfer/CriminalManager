@@ -9,7 +9,7 @@ class CrimeLab(private val context: Context) {
     init {
         for (i in 0..20) {
             val crime: Crime = Crime("Crime #$i", i % 2 == 0)
-            crimes.add(crime);
+            crimes.add(crime)
         }
     }
 
@@ -32,7 +32,8 @@ class CrimeLab(private val context: Context) {
         @JvmStatic
         fun getInstance(context: Context): CrimeLab {
             if (crimeLab == null) {
-                return CrimeLab(context)
+                crimeLab = CrimeLab(context)
+                return crimeLab as CrimeLab
             }
             return crimeLab!!
         }
