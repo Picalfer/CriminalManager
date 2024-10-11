@@ -1,25 +1,17 @@
 package com.example.criminalmanager
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.criminalmanager.databinding.CriminalItemBinding
 
-class CrimeListAdapter : RecyclerView.Adapter<CrimeListAdapter.CrimeListViewHolder>() {
-    val items = createItems()
+class CrimeListAdapter(private val items: MutableList<Crime>) :
+    RecyclerView.Adapter<CrimeListAdapter.CrimeListViewHolder>() {
 
-    fun createItems(): ArrayList<Crime> {
-        val crimes = ArrayList<Crime>()
-        for (i in 0..10) {
-            val crime: Crime = Crime("Crime #" + i)
-            crimes.add(crime);
-        }
-        return crimes
-    }
-
-
-    class CrimeListViewHolder(val binding: CriminalItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class CrimeListViewHolder(val binding: CriminalItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -36,11 +28,8 @@ class CrimeListAdapter : RecyclerView.Adapter<CrimeListAdapter.CrimeListViewHold
             tv.text = item.getTitle()
 
             root.setOnClickListener {
-                val intent = Intent(root.context, CrimeDetailsActivity::class.java)
-                intent.putExtra("criminal", item.getId().toString())
-                root.context.startActivity(intent)
+                Log.d("TEST", item.getTitle() + " was clicked");
             }
         }
-
     }
 }

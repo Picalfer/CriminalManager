@@ -17,6 +17,6 @@ class CrimeDetailsActivity : AppCompatActivity() {
             .add(R.id.fragmentContainer, CrimeDetailsFragment.newInstance())
             .commit()
 
-        val name = intent?.getStringExtra("criminal")
+        val name = intent?.getStringExtra(Constants.CRIMINAL_KEY)
     }
 }
