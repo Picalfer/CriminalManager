@@ -1,8 +1,10 @@
-package com.example.criminalmanager
+package com.example.criminalmanager.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.criminalmanager.Constants
 import com.example.criminalmanager.databinding.ActivityCrimeDetailsBinding
+import com.example.criminalmanager.data.CrimeLab
 import java.util.UUID
 
 class CrimeDetailsActivity : AppCompatActivity() {

@@ -1,6 +1,7 @@
-package com.example.criminalmanager
+package com.example.criminalmanager.data
 
 import android.content.Context
+import com.example.criminalmanager.model.Crime
 import java.util.UUID
 
 class CrimeLab(private val context: Context) {

@@ -1,9 +1,12 @@
-package com.example.criminalmanager
+package com.example.criminalmanager.ui
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.criminalmanager.Constants
+import com.example.criminalmanager.model.Crime
+import com.example.criminalmanager.Utils
 import com.example.criminalmanager.databinding.CriminalItemBinding
 
 class CrimeListAdapter(private val crimes: MutableList<Crime>) :

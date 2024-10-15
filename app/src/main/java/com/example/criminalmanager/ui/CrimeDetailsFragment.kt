@@ -1,4 +1,4 @@
-package com.example.criminalmanager
+package com.example.criminalmanager.ui
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -9,8 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.criminalmanager.Constants
+import com.example.criminalmanager.model.Crime
 import com.example.criminalmanager.Utils.getStringDateOfCrime
 import com.example.criminalmanager.databinding.FragmentCrimeDetailsBinding
+import com.example.criminalmanager.data.CrimeLab
 import java.util.Calendar
 import java.util.UUID
 

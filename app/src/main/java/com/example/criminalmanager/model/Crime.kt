@@ -1,4 +1,4 @@
-package com.example.criminalmanager
+package com.example.criminalmanager.model
 
 import java.util.Calendar
 import java.util.UUID

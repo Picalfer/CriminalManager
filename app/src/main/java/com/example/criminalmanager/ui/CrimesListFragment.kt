@@ -1,11 +1,13 @@
-package com.example.criminalmanager
+package com.example.criminalmanager.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.criminalmanager.model.Crime
 import com.example.criminalmanager.databinding.FragmentCrimesListBinding
+import com.example.criminalmanager.data.CrimeLab
 
 class CrimesListFragment : Fragment() {
     private var crimes: MutableList<Crime> = mutableListOf()

@@ -13,12 +13,12 @@
         android:theme="@style/Theme.CriminalManager"
         tools:targetApi="31">
         <activity
-            android:name=".CrimeDetailsActivity"
+            android:name=".ui.CrimeDetailsActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".CrimeListActivity"
+            android:name=".ui.CrimeListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,7 +1,8 @@
-package com.example.criminalmanager
+package com.example.criminalmanager.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.criminalmanager.R
 import com.example.criminalmanager.databinding.ActivityCrimeListBinding
 
 class CrimeListActivity : AppCompatActivity() {

@@ -1,5 +1,6 @@
 package com.example.criminalmanager
 
+import com.example.criminalmanager.model.Crime
 import java.util.Calendar
 
 object Utils {
