@@ -1,13 +1,12 @@
 package com.example.criminalmanager
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.criminalmanager.databinding.CriminalItemBinding
 
-class CrimeListAdapter(private val items: MutableList<Crime>) :
+class CrimeListAdapter(private val crimes: MutableList<Crime>) :
     RecyclerView.Adapter<CrimeListAdapter.CrimeListViewHolder>() {
 
     class CrimeListViewHolder(val binding: CriminalItemBinding) :
@@ -19,19 +18,19 @@ class CrimeListAdapter(private val items: MutableList<Crime>) :
         return CrimeListViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = crimes.size
 
     override fun onBindViewHolder(holder: CrimeListViewHolder, position: Int) {
-        val item = items[position]
+        val crime = crimes[position]
 
         with(holder.binding) {
-            title.text = item.getTitle()
-            solved.isChecked = item.isSolved()
-            date.setText(item.getDate().toString())
+            title.text = crime.getTitle()
+            solved.isChecked = crime.isSolved()
+            date.text = Utils.getStringDateOfCrime(crime)
 
             root.setOnClickListener {
                 val intent = Intent(root.context, CrimeDetailsActivity::class.java)
-                intent.putExtra(Constants.CRIMINAL_KEY, item.getId().toString())
+                intent.putExtra(Constants.CRIMINAL_KEY, crime.getId().toString())
                 root.context.startActivity(intent)
             }
         }

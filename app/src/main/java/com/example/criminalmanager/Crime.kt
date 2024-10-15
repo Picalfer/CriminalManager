@@ -1,11 +1,11 @@
 package com.example.criminalmanager
 
-import java.util.Date
+import java.util.Calendar
 import java.util.UUID
 
 class Crime(private var title: String = "", private var isSolved: Boolean = false) {
     private val id: UUID = UUID.randomUUID()
-    private var date: Date = Date()
+    private var date: Calendar = Calendar.getInstance()
 
     fun getId(): UUID {
         return id
@@ -19,11 +19,11 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
         this.title = title
     }
 
-    fun getDate(): Date {
+    fun getDate(): Calendar {
         return date
     }
 
-    fun setDate(date: Date) {
+    fun setDate(date: Calendar) {
         this.date = date
     }
 
