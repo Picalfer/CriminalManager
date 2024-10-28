@@ -29,7 +29,7 @@ class CrimeListAdapter(private val crimes: MutableList<Crime>) :
         with(holder.binding) {
             title.text = crime.getTitle()
             solved.isChecked = crime.isSolved()
-            date.text = Utils.getStringDateOfCrime(crime)
+            date.text = Utils.getFullDateOfCrime(crime)
 
             root.setOnClickListener {
                 val intent = Intent(root.context, CrimeDetailsActivity::class.java)

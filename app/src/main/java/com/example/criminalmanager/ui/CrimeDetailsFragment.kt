@@ -2,6 +2,8 @@ package com.example.criminalmanager.ui
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,10 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.criminalmanager.Constants
-import com.example.criminalmanager.model.Crime
-import com.example.criminalmanager.Utils.getStringDateOfCrime
-import com.example.criminalmanager.databinding.FragmentCrimeDetailsBinding
+import com.example.criminalmanager.Utils
 import com.example.criminalmanager.data.CrimeLab
+import com.example.criminalmanager.databinding.FragmentCrimeDetailsBinding
+import com.example.criminalmanager.model.Crime
 import java.util.Calendar
 import java.util.UUID
 
@@ -61,18 +63,35 @@ class CrimeDetailsFragment : Fragment() {
                 .show()
         }
 
+        binding.crimeTime.setOnClickListener {
+
+            TimePickerDialog(
+                requireActivity(), timeSetListener,
+                crime.getDate().get(Calendar.HOUR_OF_DAY),
+                crime.getDate().get(Calendar.MINUTE),
+                true
+            )
+                .show()
+        }
+
         return binding.root
     }
 
     private fun updateScreenData() {
         binding.crimeTitle.setText(crime.getTitle())
-        binding.crimeDate.text = getStringDateOfCrime(crime)
+        binding.crimeDate.text = Utils.getStringDateOfCrime(crime)
         binding.crimeSolved.isChecked = crime.isSolved()
+        binding.crimeTime.text = Utils.getStringTimeOfCrime(crime)
     }
 
     private var dateSetListener: OnDateSetListener =
         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             updateCrimeDate(year, monthOfYear, dayOfMonth)
+        }
+
+    private var timeSetListener: OnTimeSetListener =
+        OnTimeSetListener { view, hour, minute ->
+            updateCrimeTime(hour, minute)
         }
 
     private fun updateCrimeDate(year: Int, month: Int, day: Int) {
@@ -82,6 +101,15 @@ class CrimeDetailsFragment : Fragment() {
         newCrimeDate.set(Calendar.DAY_OF_MONTH, day)
 
         crime.setDate(newCrimeDate)
+        updateScreenData()
+    }
+
+    private fun updateCrimeTime(hour: Int, minute: Int) {
+        val newCrimeTime = crime.getDate()
+        newCrimeTime.set(Calendar.HOUR_OF_DAY, hour)
+        newCrimeTime.set(Calendar.MINUTE, minute)
+
+        crime.setDate(newCrimeTime)
         updateScreenData()
     }
 
