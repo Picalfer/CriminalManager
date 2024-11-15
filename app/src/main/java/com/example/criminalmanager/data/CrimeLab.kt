@@ -8,14 +8,15 @@ class CrimeLab(private val context: Context) {
     private val crimes = mutableListOf<Crime>()
 
     init {
-        for (i in 0..20) {
-            val crime: Crime = Crime("Crime #$i", i % 2 == 0)
-            crimes.add(crime)
-        }
+
     }
 
     fun getCrimes(): MutableList<Crime> {
         return crimes
+    }
+
+    fun addCrime(crime: Crime) {
+        crimes.add(crime)
     }
 
     fun getCrime(id: UUID): Crime? {

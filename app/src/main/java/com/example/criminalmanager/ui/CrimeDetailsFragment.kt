@@ -35,7 +35,6 @@ class CrimeDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCrimeDetailsBinding.inflate(inflater)
-
         updateScreenData()
 
         binding.crimeTitle.addTextChangedListener(object : TextWatcher {
