@@ -76,6 +76,11 @@ class CrimeDetailsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        CrimeLab.getInstance(requireContext()).saveCrimes()
+    }
+
     private fun updateScreenData() {
         binding.crimeTitle.setText(crime.getTitle())
         binding.crimeDate.text = Utils.getStringDateOfCrime(crime)

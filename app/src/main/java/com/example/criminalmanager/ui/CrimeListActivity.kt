@@ -14,6 +14,7 @@ import com.example.criminalmanager.model.Crime
 class CrimeListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCrimeListBinding
+    private var subtitleVisibility: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +24,16 @@ class CrimeListActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
+        if (savedInstanceState != null) {
+            subtitleVisibility = savedInstanceState.getBoolean(SUBTITLE_VISIBILITY, false)
+        }
+
+        if (subtitleVisibility == true) {
+            supportActionBar?.subtitle = getString(R.string.subtitle)
+        } else {
+            supportActionBar?.subtitle = null
+        }
+
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentContainer, CrimesListFragment.newInstance())
             .commit()
@@ -31,6 +42,13 @@ class CrimeListActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.crime_menu, menu)
+        val showSubtitle = menu?.findItem(R.id.menu_item_show_subtitle)
+
+        if (subtitleVisibility == true) {
+            showSubtitle?.title = getString(R.string.hide_sub)
+        } else {
+            showSubtitle?.title = getString(R.string.show_sub)
+        }
         return true
     }
 
@@ -42,10 +60,35 @@ class CrimeListActivity : AppCompatActivity() {
                 val intent = Intent(this, CrimeDetailsActivity::class.java)
                 intent.putExtra(Constants.CRIMINAL_KEY, crime.getId().toString())
                 startActivity(intent)
-                return true
             }
 
-            else -> return false
+            R.id.menu_item_show_subtitle -> {
+                if (supportActionBar?.subtitle == null) {
+                    supportActionBar?.subtitle = getString(R.string.subtitle)
+                    item.title = getString(R.string.hide_sub)
+                    subtitleVisibility = true
+                } else {
+                    supportActionBar?.subtitle = null
+                    item.title = getString(R.string.show_sub)
+                    subtitleVisibility = false
+                }
+            }
         }
+
+        return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(SUBTITLE_VISIBILITY, subtitleVisibility)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        subtitleVisibility = savedInstanceState.getBoolean(SUBTITLE_VISIBILITY, false)
+    }
+
+    companion object {
+        const val SUBTITLE_VISIBILITY = "SUBTITLE_VISIBILITY"
     }
 }
