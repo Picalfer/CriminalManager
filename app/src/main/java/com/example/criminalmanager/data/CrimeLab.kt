@@ -5,7 +5,7 @@ import android.util.Log
 import com.example.criminalmanager.model.Crime
 import java.util.UUID
 
-class CrimeLab(private val context: Context) {
+class CrimeLab(context: Context) {
     private val crimes = mutableListOf<Crime>()
     private val serializer = CriminalManagerJSONSerializer(context, FILENAME)
 
@@ -23,6 +23,10 @@ class CrimeLab(private val context: Context) {
 
     fun addCrime(crime: Crime) {
         crimes.add(crime)
+    }
+
+    fun deleteCrime(crime: Crime) {
+        crimes.remove(crime)
     }
 
     fun getCrime(id: UUID): Crime? {
