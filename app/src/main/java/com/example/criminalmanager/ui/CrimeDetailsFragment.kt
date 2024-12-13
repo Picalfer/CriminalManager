@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -71,6 +73,17 @@ class CrimeDetailsFragment : Fragment() {
                 true
             )
                 .show()
+        }
+
+        binding.crimeImageBtn.setOnClickListener {
+            val i = Intent(requireActivity(), CrimeCameraActivity::class.java)
+            startActivity(i)
+        }
+
+        val pm = requireActivity().packageManager
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) && !pm.hasSystemFeature(
+                PackageManager.FEATURE_CAMERA_FRONT)) {
+            binding.crimeImageBtn.isEnabled = false
         }
 
         return binding.root
