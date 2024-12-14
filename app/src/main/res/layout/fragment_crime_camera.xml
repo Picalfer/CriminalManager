@@ -8,8 +8,23 @@
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_margin="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/crime_camera_takePictureBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/crime_camera_backPictureBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/crime_camera_takePictureBtn"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/crime_camera_takePictureBtn"
@@ -18,7 +33,17 @@
         android:layout_margin="5dp"
         android:text="@string/take"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/crime_camera_savePictureBtn"
+        app:layout_constraintStart_toEndOf="@id/crime_camera_backPictureBtn" />
+
+    <Button
+        android:id="@+id/crime_camera_savePictureBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/crime_camera_takePictureBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

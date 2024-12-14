@@ -1,7 +1,11 @@
 package com.example.criminalmanager.ui
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +26,6 @@ class CrimeCameraFragment : Fragment() {
         captureIV.setImageURI(imageUrl)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +36,20 @@ class CrimeCameraFragment : Fragment() {
         with(binding) {
             captureIV = iv
 
+            crimeCameraBackPictureBtn.setOnClickListener {
+                requireActivity().finish()
+            }
+
             crimeCameraTakePictureBtn.setOnClickListener {
                 contract.launch(imageUrl)
+            }
+
+            crimeCameraSavePictureBtn.setOnClickListener {
+                Log.d("TEST", imageUrl.toString())
+                val i = Intent()
+                i.putExtra("filepath", imageUrl.toString())
+                requireActivity().setResult(RESULT_OK, i)
+                requireActivity().finish()
             }
         }
 
@@ -51,19 +63,5 @@ class CrimeCameraFragment : Fragment() {
             "com.example.criminalmanager.ui.FileProvider",
             image
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CrimeCameraFragment()
     }
 }

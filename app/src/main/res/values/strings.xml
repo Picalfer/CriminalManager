@@ -10,4 +10,6 @@
     <string name="subtitle" translatable="false">If you see smth, say smth.</string>
     <string name="delete_crime" translatable="false">Delete</string>
     <string name="take">Take!</string>
+    <string name="save">Save!</string>
+    <string name="back">Back!</string>
 </resources>

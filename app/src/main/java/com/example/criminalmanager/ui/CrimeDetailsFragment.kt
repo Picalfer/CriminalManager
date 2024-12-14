@@ -1,17 +1,23 @@
 package com.example.criminalmanager.ui
 
+import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.criminalmanager.Constants
 import com.example.criminalmanager.Utils
@@ -24,6 +30,8 @@ import java.util.UUID
 class CrimeDetailsFragment : Fragment() {
     private var crime: Crime = Crime()
     private lateinit var binding: FragmentCrimeDetailsBinding
+
+    private var cameraLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +46,15 @@ class CrimeDetailsFragment : Fragment() {
     ): View {
         binding = FragmentCrimeDetailsBinding.inflate(inflater)
         updateScreenData()
+
+        cameraLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == RESULT_OK) {
+                    val filePath = result.data?.getStringExtra("filepath")
+                    Log.d("TEST", filePath.toString())
+                    binding.crimeImageBtn.setImageURI(Uri.parse(filePath))
+                }
+            }
 
         binding.crimeTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -54,7 +71,6 @@ class CrimeDetailsFragment : Fragment() {
         }
 
         binding.crimeDate.setOnClickListener {
-
             DatePickerDialog(
                 requireActivity(), dateSetListener,
                 crime.getDate().get(Calendar.YEAR),
@@ -65,7 +81,6 @@ class CrimeDetailsFragment : Fragment() {
         }
 
         binding.crimeTime.setOnClickListener {
-
             TimePickerDialog(
                 requireActivity(), timeSetListener,
                 crime.getDate().get(Calendar.HOUR_OF_DAY),
@@ -77,12 +92,11 @@ class CrimeDetailsFragment : Fragment() {
 
         binding.crimeImageBtn.setOnClickListener {
             val i = Intent(requireActivity(), CrimeCameraActivity::class.java)
-            startActivity(i)
+            cameraLauncher?.launch(i)
         }
 
         val pm = requireActivity().packageManager
-        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) && !pm.hasSystemFeature(
-                PackageManager.FEATURE_CAMERA_FRONT)) {
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             binding.crimeImageBtn.isEnabled = false
         }
 
