@@ -2,7 +2,6 @@ package com.example.criminalmanager.ui
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +14,9 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.criminalmanager.databinding.FragmentCrimeCameraBinding
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CrimeCameraFragment : Fragment() {
     private lateinit var binding: FragmentCrimeCameraBinding
@@ -35,6 +37,12 @@ class CrimeCameraFragment : Fragment() {
 
         with(binding) {
             captureIV = iv
+
+            val uriFromIntent = requireActivity().intent?.getStringExtra("fileuri")
+            if (uriFromIntent != null) {
+                val imageUri = Uri.parse(uriFromIntent)
+                iv.setImageURI(imageUri)
+            }
 
             crimeCameraBackPictureBtn.setOnClickListener {
                 requireActivity().finish()
@@ -57,7 +65,11 @@ class CrimeCameraFragment : Fragment() {
     }
 
     private fun createImageUri(): Uri {
-        val image = File(requireActivity().filesDir, "camera_photos.png")
+        // Генерация уникального имени файла
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "camera_photo_$timeStamp.png" // Уникальное имя файла
+        val image = File(requireActivity().filesDir, imageFileName) // Создание файла с уникальным именем
+
         return FileProvider.getUriForFile(
             requireActivity(),
             "com.example.criminalmanager.ui.FileProvider",

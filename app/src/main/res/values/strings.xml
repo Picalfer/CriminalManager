@@ -9,7 +9,7 @@
     <string name="hide_sub" translatable="false">Hide Subtitle</string>
     <string name="subtitle" translatable="false">If you see smth, say smth.</string>
     <string name="delete_crime" translatable="false">Delete</string>
-    <string name="take">Take!</string>
-    <string name="save">Save!</string>
+    <string name="take">Take new one!</string>
+    <string name="save">Save this!</string>
     <string name="back">Back!</string>
 </resources>

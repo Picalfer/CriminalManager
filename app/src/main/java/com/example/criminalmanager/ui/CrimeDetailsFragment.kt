@@ -24,6 +24,7 @@ import com.example.criminalmanager.Utils
 import com.example.criminalmanager.data.CrimeLab
 import com.example.criminalmanager.databinding.FragmentCrimeDetailsBinding
 import com.example.criminalmanager.model.Crime
+import com.example.criminalmanager.model.Photo
 import java.util.Calendar
 import java.util.UUID
 
@@ -52,7 +53,12 @@ class CrimeDetailsFragment : Fragment() {
                 if (result.resultCode == RESULT_OK) {
                     val filePath = result.data?.getStringExtra("filepath")
                     Log.d("TEST", filePath.toString())
-                    binding.crimeImageBtn.setImageURI(Uri.parse(filePath))
+
+                    if (filePath != null) {
+                        val photo = Photo(filePath)
+                        crime.setPhoto(photo)
+                        showPhoto()
+                    }
                 }
             }
 
@@ -92,6 +98,7 @@ class CrimeDetailsFragment : Fragment() {
 
         binding.crimeImageBtn.setOnClickListener {
             val i = Intent(requireActivity(), CrimeCameraActivity::class.java)
+            i.putExtra("fileuri", crime.getPhoto()?.filename)
             cameraLauncher?.launch(i)
         }
 
@@ -101,6 +108,23 @@ class CrimeDetailsFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showPhoto()
+    }
+
+    private fun showPhoto() {
+        val photo = crime.getPhoto()
+        if (photo != null) {
+            binding.crimeImage.setImageURI(Uri.parse(photo.filename))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showPhoto()
     }
 
     override fun onPause() {

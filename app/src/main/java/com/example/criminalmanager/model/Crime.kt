@@ -10,6 +10,7 @@ import java.util.UUID
 class Crime(private var title: String = "", private var isSolved: Boolean = false) {
     private var id: UUID = UUID.randomUUID()
     private var date: Calendar = Calendar.getInstance()
+    private var photo: Photo? = null
 
     constructor(json: JSONObject) : this() {
         id = UUID.fromString(json.getString(ID))
@@ -20,6 +21,9 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
             val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             time = dateFormat.parse(json.getString(DATE)) ?: Date()
         }
+
+        if (json.has(PHOTO))
+            photo = Photo(json.getJSONObject(PHOTO))
     }
 
     fun getId(): UUID {
@@ -50,6 +54,12 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
         this.isSolved = isSolved
     }
 
+    fun getPhoto(): Photo? = photo
+
+    fun setPhoto(p: Photo) {
+        photo = p
+    }
+
     fun toJSON(): JSONObject {
         val json = JSONObject()
         json.put(ID, id)
@@ -60,6 +70,8 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         json.put(DATE, dateFormat.format(date.time)) // Сохраняем отформатированную дату
 
+        if (photo != null)
+            json.put(PHOTO, photo!!.toJSON())
 
         return json
     }
@@ -69,5 +81,6 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
         const val TITLE = "title"
         const val SOLVED = "solved"
         const val DATE = "date"
+        const val PHOTO = "photo"
     }
 }
