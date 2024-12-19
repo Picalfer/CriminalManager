@@ -65,19 +65,24 @@
         android:layout_height="wrap_content"
         android:text="@string/crime_details_label" />
 
-    <Button
-        android:id="@+id/crime_date"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:orientation="horizontal"
+        android:paddingTop="15dp">
 
-    <Button
-        android:id="@+id/crime_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/crime_date"
+            style="@style/CustomButtonStyle"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/crime_time"
+            style="@style/CustomButtonStyle"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 
     <CheckBox
         android:id="@+id/crime_solved"
@@ -86,4 +91,15 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/crime_solved_label" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/suspect_btn"
+        style="@style/CustomButtonStyle"
+        android:text="@string/suspect_text" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/report_btn"
+        style="@style/CustomButtonStyle"
+        android:text="@string/report_text" />
+
 </LinearLayout>

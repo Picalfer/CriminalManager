@@ -12,4 +12,6 @@
     <string name="take">Take new one!</string>
     <string name="save">Save this!</string>
     <string name="back">Back!</string>
+    <string name="suspect_text">Choose Suspect</string>
+    <string name="report_text">Send Crime Report</string>
 </resources>
