@@ -11,6 +11,7 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
     private var id: UUID = UUID.randomUUID()
     private var date: Calendar = Calendar.getInstance()
     private var photo: Photo? = null
+    private var suspect: String? = null
 
     constructor(json: JSONObject) : this() {
         id = UUID.fromString(json.getString(ID))
@@ -24,6 +25,9 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
 
         if (json.has(PHOTO))
             photo = Photo(json.getJSONObject(PHOTO))
+
+        if (json.has(SUSPECT))
+            suspect = json.getString(SUSPECT)
     }
 
     fun getId(): UUID {
@@ -60,6 +64,12 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
         photo = p
     }
 
+    fun getSuspect(): String? = suspect
+
+    fun setSuspect(s: String) {
+        suspect = s
+    }
+
     fun toJSON(): JSONObject {
         val json = JSONObject()
         json.put(ID, id)
@@ -73,6 +83,9 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
         if (photo != null)
             json.put(PHOTO, photo!!.toJSON())
 
+        if (suspect != null)
+            json.put(SUSPECT, suspect)
+
         return json
     }
 
@@ -82,5 +95,6 @@ class Crime(private var title: String = "", private var isSolved: Boolean = fals
         const val SOLVED = "solved"
         const val DATE = "date"
         const val PHOTO = "photo"
+        const val SUSPECT = "suspect"
     }
 }
