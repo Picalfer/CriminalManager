@@ -21,11 +21,11 @@ import java.util.Locale
 class CrimeCameraFragment : Fragment() {
     private lateinit var binding: FragmentCrimeCameraBinding
     private lateinit var captureIV: ImageView
-    private lateinit var imageUrl: Uri
+    private lateinit var imageUri: Uri
 
     private val contract = registerForActivityResult(ActivityResultContracts.TakePicture()) {
         captureIV.setImageURI(null)
-        captureIV.setImageURI(imageUrl)
+        captureIV.setImageURI(imageUri)
     }
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class CrimeCameraFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCrimeCameraBinding.inflate(inflater)
-        imageUrl = createImageUri()
+        imageUri = createImageUri()
 
         with(binding) {
             captureIV = iv
@@ -49,13 +49,13 @@ class CrimeCameraFragment : Fragment() {
             }
 
             crimeCameraTakePictureBtn.setOnClickListener {
-                contract.launch(imageUrl)
+                contract.launch(imageUri)
             }
 
             crimeCameraSavePictureBtn.setOnClickListener {
-                Log.d("TEST", imageUrl.toString())
+                Log.d("TEST", imageUri.toString())
                 val i = Intent()
-                i.putExtra("filepath", imageUrl.toString())
+                i.putExtra("filepath", imageUri.toString())
                 requireActivity().setResult(RESULT_OK, i)
                 requireActivity().finish()
             }
@@ -66,9 +66,11 @@ class CrimeCameraFragment : Fragment() {
 
     private fun createImageUri(): Uri {
         // Генерация уникального имени файла
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val timeStamp: String =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val imageFileName = "camera_photo_$timeStamp.png" // Уникальное имя файла
-        val image = File(requireActivity().filesDir, imageFileName) // Создание файла с уникальным именем
+        val image =
+            File(requireActivity().filesDir, imageFileName) // Создание файла с уникальным именем
 
         return FileProvider.getUriForFile(
             requireActivity(),

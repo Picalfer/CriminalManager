@@ -107,6 +107,12 @@ class CrimeDetailsFragment : Fragment() {
             binding.crimeImageBtn.isEnabled = false
         }
 
+        binding.crimeImage.setOnClickListener {
+            val fm = requireActivity().supportFragmentManager
+            val imageFragment = ImageFragment.newInstance(crime.getPhoto()?.filename.toString())
+            imageFragment.show(fm, "imageFragment")
+        }
+
         return binding.root
     }
 
