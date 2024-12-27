@@ -97,8 +97,9 @@ class CrimeDetailsFragment : Fragment() {
                         }
 
                         Log.d("TEST Name", contactName)
-                        binding.suspectBtn.text =
-                            getString(R.string.crime_report_suspect, contactName)
+                        val textSuspect = getString(R.string.crime_report_suspect, contactName)
+                        Log.d("TEST Name", textSuspect)
+                        binding.suspectBtn.text = textSuspect
                         crime.setSuspect(contactName)
                     } else {
                         Log.e("TEST Error", "One or more column indices are invalid.")
@@ -136,6 +137,7 @@ class CrimeDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentCrimeDetailsBinding.inflate(inflater)
         updateScreenData()
 
@@ -153,83 +155,93 @@ class CrimeDetailsFragment : Fragment() {
                 }
             }
 
-        binding.crimeTitle.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                crime.setTitle(s.toString())
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        binding.crimeSolved.setOnCheckedChangeListener { buttonView, isChecked ->
-            crime.setSolved(isChecked)
-        }
-
-        binding.crimeDate.setOnClickListener {
-            DatePickerDialog(
-                requireActivity(), dateSetListener,
-                crime.getDate().get(Calendar.YEAR),
-                crime.getDate().get(Calendar.MONTH),
-                crime.getDate().get(Calendar.DAY_OF_MONTH)
-            )
-                .show()
-        }
-
-        binding.crimeTime.setOnClickListener {
-            TimePickerDialog(
-                requireActivity(), timeSetListener,
-                crime.getDate().get(Calendar.HOUR_OF_DAY),
-                crime.getDate().get(Calendar.MINUTE),
-                true
-            )
-                .show()
-        }
-
-        binding.crimeImageBtn.setOnClickListener {
-            val i = Intent(requireActivity(), CrimeCameraActivity::class.java)
-            i.putExtra("fileuri", crime.getPhoto()?.filename)
-            cameraLauncher?.launch(i)
-        }
-
-        val pm = requireActivity().packageManager
-        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-            binding.crimeImageBtn.isEnabled = false
-        }
-
-        binding.crimeImage.setOnClickListener {
-            val fm = requireActivity().supportFragmentManager
-            val imageFragment = ImageFragment.newInstance(crime.getPhoto()?.filename.toString())
-            imageFragment.show(fm, "imageFragment")
-        }
-
-        binding.reportBtn.setOnClickListener {
-            var i = Intent(Intent.ACTION_SEND)
-            i.setType("text/plain")
-            i.putExtra(Intent.EXTRA_TEXT, getCrimeReport())
-            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject))
-            i = Intent.createChooser(i, getString(R.string.send_report))
-            startActivity(i)
-        }
-
-        binding.suspectBtn.setOnClickListener {
-            when {
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.READ_CONTACTS
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    // Разрешение уже предоставлено, запускаем выбор контакта
-                    pickContactLauncher.launch(null)
+        with(binding) {
+            crimeTitle.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
 
-                else -> {
-                    // Запрашиваем разрешение
-                    requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    crime.setTitle(s.toString())
+                    onDataChanged()
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            crimeSolved.setOnCheckedChangeListener { buttonView, isChecked ->
+                crime.setSolved(isChecked)
+                onDataChanged()
+            }
+
+            crimeDate.setOnClickListener {
+                DatePickerDialog(
+                    requireActivity(), dateSetListener,
+                    crime.getDate().get(Calendar.YEAR),
+                    crime.getDate().get(Calendar.MONTH),
+                    crime.getDate().get(Calendar.DAY_OF_MONTH)
+                )
+                    .show()
+            }
+
+            crimeTime.setOnClickListener {
+                TimePickerDialog(
+                    requireActivity(), timeSetListener,
+                    crime.getDate().get(Calendar.HOUR_OF_DAY),
+                    crime.getDate().get(Calendar.MINUTE),
+                    true
+                )
+                    .show()
+            }
+
+            crimeImageBtn.setOnClickListener {
+                val i = Intent(requireActivity(), CrimeCameraActivity::class.java)
+                i.putExtra("fileuri", crime.getPhoto()?.filename)
+                cameraLauncher?.launch(i)
+            }
+
+            val pm = requireActivity().packageManager
+            if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+                binding.crimeImageBtn.isEnabled = false
+            }
+
+            crimeImage.setOnClickListener {
+                val fm = requireActivity().supportFragmentManager
+                val imageFragment = ImageFragment.newInstance(crime.getPhoto()?.filename.toString())
+                imageFragment.show(fm, "imageFragment")
+            }
+
+            reportBtn.setOnClickListener {
+                var i = Intent(Intent.ACTION_SEND)
+                i.setType("text/plain")
+                i.putExtra(Intent.EXTRA_TEXT, getCrimeReport())
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject))
+                i = Intent.createChooser(i, getString(R.string.send_report))
+                startActivity(i)
+            }
+
+            suspectBtn.setOnClickListener {
+                when {
+                    ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_CONTACTS
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+                        // Разрешение уже предоставлено, запускаем выбор контакта
+                        pickContactLauncher.launch(null)
+                    }
+
+                    else -> {
+                        // Запрашиваем разрешение
+                        requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                    }
                 }
             }
-        }
 
+        }
         return binding.root
     }
 
@@ -265,6 +277,7 @@ class CrimeDetailsFragment : Fragment() {
         } else {
             binding.suspectBtn.text = getString(R.string.suspect_text)
         }
+        onDataChanged()
     }
 
     private var dateSetListener: OnDateSetListener =
@@ -309,7 +322,7 @@ class CrimeDetailsFragment : Fragment() {
         suspect = if (suspect == null)
             getString(R.string.crime_report_no_suspect)
         else
-            getString(R.string.crime_report_suspect)
+            getString(R.string.crime_report_suspect, crime.getSuspect())
 
         val report: String = getString(
             R.string.crime_report,
@@ -322,7 +335,13 @@ class CrimeDetailsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(crimeId: String): CrimeDetailsFragment {
+        private lateinit var onDataChanged: () -> Unit
+
+        fun newInstance(
+            crimeId: String,
+            onDataChanged: () -> Unit = {}
+        ): CrimeDetailsFragment {
+            this.onDataChanged = onDataChanged
             val args = Bundle().apply {
                 putString(Constants.CRIMINAL_KEY, crimeId)
             }

@@ -1,18 +1,16 @@
 package com.example.criminalmanager.ui
 
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.criminalmanager.Constants
 import com.example.criminalmanager.Utils
 import com.example.criminalmanager.databinding.CriminalItemBinding
 import com.example.criminalmanager.model.Crime
 
 class CrimeListAdapter(
-    private val crimes: MutableList<Crime>,
-    private val onItemClick: (Int) -> Unit
+    private var crimes: MutableList<Crime>,
+    private val onItemClick: (String) -> Unit,
+    private val onLongItemClick: (Int) -> Unit,
 ) :
     RecyclerView.Adapter<CrimeListAdapter.CrimeListViewHolder>() {
 
@@ -35,17 +33,23 @@ class CrimeListAdapter(
             solved.isChecked = crime.isSolved()
             date.text = Utils.getFullDateOfCrime(crime)
 
+            root.setOnClickListener(null)
+            root.setOnLongClickListener(null)
+
             root.setOnClickListener {
-                val intent = Intent(root.context, CrimeDetailsActivity::class.java)
-                intent.putExtra(Constants.CRIMINAL_KEY, crime.getId().toString())
-                root.context.startActivity(intent)
+                onItemClick(crime.getId().toString())
             }
 
             root.setOnLongClickListener {
-                onItemClick(position)
-                Log.d("TEST", "Long click detected")
+                onLongItemClick(position)
                 true
             }
         }
+    }
+
+    fun updateCrimes(newCrimes: MutableList<Crime>) {
+        crimes.clear()
+        crimes.addAll(newCrimes)
+        notifyDataSetChanged()
     }
 }
