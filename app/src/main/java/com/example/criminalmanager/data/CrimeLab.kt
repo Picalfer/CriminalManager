@@ -6,7 +6,7 @@ import com.example.criminalmanager.model.Crime
 import java.util.UUID
 
 class CrimeLab(context: Context) {
-    private val crimes = mutableListOf<Crime>()
+    private val crimes = arrayListOf<Crime>()
     private val serializer = CriminalManagerJSONSerializer(context, FILENAME)
 
     init {
@@ -17,7 +17,7 @@ class CrimeLab(context: Context) {
         }
     }
 
-    fun getCrimes(): MutableList<Crime> {
+    fun getCrimes(): ArrayList<Crime> {
         return crimes
     }
 

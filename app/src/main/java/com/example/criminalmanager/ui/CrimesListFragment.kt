@@ -17,7 +17,7 @@ import com.example.criminalmanager.databinding.FragmentCrimesListBinding
 import com.example.criminalmanager.model.Crime
 
 class CrimesListFragment : Fragment() {
-    private var crimes: MutableList<Crime> = mutableListOf()
+    private var crimes: ArrayList<Crime> = arrayListOf()
     private lateinit var adapter: CrimeListAdapter
     private lateinit var binding: FragmentCrimesListBinding
     private var selectedPosition: Int? = null
@@ -32,8 +32,6 @@ class CrimesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentCrimesListBinding.inflate(inflater)
-
-        crimes = CrimeLab.getInstance(requireContext()).getCrimes()
 
         adapter = CrimeListAdapter(
             crimes = crimes,

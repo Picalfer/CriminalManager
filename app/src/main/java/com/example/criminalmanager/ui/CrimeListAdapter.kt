@@ -8,7 +8,7 @@ import com.example.criminalmanager.databinding.CriminalItemBinding
 import com.example.criminalmanager.model.Crime
 
 class CrimeListAdapter(
-    private var crimes: MutableList<Crime>,
+    private var crimes: ArrayList<Crime>,
     private val onItemClick: (String) -> Unit,
     private val onLongItemClick: (Int) -> Unit,
 ) :
@@ -33,9 +33,6 @@ class CrimeListAdapter(
             solved.isChecked = crime.isSolved()
             date.text = Utils.getFullDateOfCrime(crime)
 
-            root.setOnClickListener(null)
-            root.setOnLongClickListener(null)
-
             root.setOnClickListener {
                 onItemClick(crime.getId().toString())
             }
@@ -45,11 +42,5 @@ class CrimeListAdapter(
                 true
             }
         }
-    }
-
-    fun updateCrimes(newCrimes: MutableList<Crime>) {
-        crimes.clear()
-        crimes.addAll(newCrimes)
-        notifyDataSetChanged()
     }
 }

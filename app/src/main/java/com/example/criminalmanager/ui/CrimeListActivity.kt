@@ -37,7 +37,7 @@ class CrimeListActivity : AppCompatActivity() {
 
         listFragment = CrimesListFragment.newInstance()
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, listFragment)
+            .replace(R.id.fragmentContainer, listFragment)
             .commit()
     }
 
