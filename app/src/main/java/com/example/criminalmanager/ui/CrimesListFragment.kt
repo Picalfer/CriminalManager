@@ -97,18 +97,21 @@ class CrimesListFragment : Fragment() {
 
             return when (item.itemId) {
                 R.id.menu_item_delete_crime -> {
+
+                    if (::detailsFragment.isInitialized) {
+                        if (detailsFragment.crime.getId() == CrimeLab.getInstance(requireContext()).getCrimes()[selectedPosition!!].getId()) {
+                            requireActivity().supportFragmentManager.beginTransaction()
+                                .remove(detailsFragment)
+                                .commit()
+                        }
+                    }
+
                     CrimeLab.getInstance(requireContext()).deleteCrime(selectedCrime)
 
                     adapter.notifyItemRemoved(selectedPosition!!)
                     adapter.notifyItemRangeChanged(selectedPosition!!, crimes.size)
 
                     selectedPosition = null
-
-                    if (::detailsFragment.isInitialized) {
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .remove(detailsFragment)
-                            .commit()
-                    }
 
                     true
                 }

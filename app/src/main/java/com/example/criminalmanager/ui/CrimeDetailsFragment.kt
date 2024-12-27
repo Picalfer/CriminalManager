@@ -36,7 +36,7 @@ import java.util.Calendar
 import java.util.UUID
 
 class CrimeDetailsFragment : Fragment() {
-    private var crime: Crime = Crime()
+    public var crime: Crime = Crime()
     private lateinit var binding: FragmentCrimeDetailsBinding
 
     private var cameraLauncher: ActivityResultLauncher<Intent>? = null
